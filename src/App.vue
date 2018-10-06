@@ -2,8 +2,7 @@
   <div id="app">
 
     <div class="header">
-      header
-      <my-header> 
+      <my-header :seller="seller"> 
         <p>test</p>
       </my-header>
     </div>
@@ -28,18 +27,42 @@
   </div>
 </template>
 
-<script>
+<script type="text/esmascript-6">
 import myHeader from './components/header/header.vue'
 
+const ERR_OK = 0;
 export default {
   name: 'App',
+  data(){
+    return{
+      seller:{},
+
+    };
+  },
   components:{
     myHeader,
-  }
+  },
+  created(){
+    this.$http.get('/api/seller').then(response =>{
+      response = response.body;
+      if(response.errno === ERR_OK)
+      {
+          this.seller = response.data;
+          console.log(this.seller)
+      }
+     
+    },response => {
+
+    });
+  },
+
 }
 </script>
 
-<style>
+
+
+<style  lang="stylus">
+@import "./common/stylus/mixin.styl";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -74,8 +97,6 @@ export default {
 }
 
 .line{
-  width: 100%;
-  height: 1px;
-  background-color: rgb(7, 17, 27,0.1);
+  border-1px(rgba(7, 17, 27,0.1))
 }
 </style>

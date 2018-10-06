@@ -4,8 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueRouter from 'vue-router';
+import VueResource from 'vue-resource'
 
-
+Vue.use(VueResource);
 
 /* eslint-disable no-new */
 new Vue({
@@ -17,3 +18,6 @@ new Vue({
 })
 
 router.push("/goods");
+
+//vue-resource
+
