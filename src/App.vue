@@ -7,7 +7,8 @@
       </my-header>
     </div>
 
-     <div class='line'></div>
+  <div class="menu">
+    <div class='line'></div>
     <div class="tab">
       <div class="tab-item">
         <router-link to="/goods" >商品</router-link>
@@ -20,6 +21,7 @@
       </div>
     </div>
     <div class='line'></div>
+  </div>
 
     <div class="content"> 
       <router-view></router-view>
@@ -65,14 +67,17 @@ export default {
 @import "./common/stylus/mixin.styl";
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'PingFang SC','STHeitiSC-Light','Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
+.menu{
+  margin:5px 0 5px 0;
+}
 .tab {
   display:flex;
   width: 100%;
