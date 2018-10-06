@@ -1,6 +1,7 @@
 <template>
-    <div class="header">
-        <p>my hearder</p>
+    <div class="ratings">
+        ratings
+
     </div>
 </template>
 
