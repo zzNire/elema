@@ -8,7 +8,7 @@
     </div>
 
   <div class="menu">
-    <div class='line'></div>
+  
     <div class="tab">
       <div class="tab-item">
         <router-link to="/goods" >商品</router-link>
@@ -72,7 +72,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 30px;
 }
 
 .menu{

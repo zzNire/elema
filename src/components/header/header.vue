@@ -1,9 +1,11 @@
 <template>
     <div class="header">
-        <div class="content">
-            <div class="icon"> 
+      <div class="icon"> 
                 <img :src="seller.avatar" height="64" width="64">
             </div>
+      <div class="background">
+        <div class="content">
+            
             <div class='message'>
                 <div class="title">
                      <span class="brand"></span>
@@ -26,9 +28,15 @@
                        <button class="sale-more-info" v-if="supportsNum>1">{{supportsNum}}个优惠></button>
                    </div>
                </div>
+               <div class="report">
+                 公告：{{seller.bulletin}}
+               </div>
             </div>
         </div>
-        <div class="comment"></div>
+      </div>
+        <div class="header-background">
+          <img :src="seller.avatar">
+        </div>
     </div>
 </template>
 
@@ -42,7 +50,11 @@ export default {
   },
   data() {
     return {
-        saleType:['decrease','discount','special','invoice','guarantee']
+        saleType:['decrease','discount','special','invoice','guarantee'],
+        headerBackground:{
+          
+        }
+      
     }
   },
   computed: {
@@ -65,11 +77,46 @@ export default {
 //C:\elema\src\components\header\header.vue
 @import "../../common/stylus/mixin.styl";
 .header {
+  padding-top:100px;
+  height:230px;
+  position :relative;
+}
+
+.header-background{
+   position:absolute;
+  top:0px;
+  left :0px;
+  z-index -1;
+  width:100%;
+  height:100%;
+  overflow :hidden;
+  
+
+}
+.header-background img{
+  width:100%;
+  height :auto;
+  background-size:cover;
+  filter :blur(10px);
+
+  
+}
+.background{
+  left :0px;
+  padding-bottom :10px;
+  background-color :white;
+  padding-top:30px;
 }
 .content {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+
+}
+.icon{
+  width:100%;
+  position :absolute;
+  top:50px;
 }
 .icon img {
   margin-left: auto;
@@ -135,5 +182,16 @@ export default {
 
 .sale-more-info {
   font-size: 6px;
+}
+
+.report {
+  margin :0px;
+  font-size :6px;
+  color :gray;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis
+  text-align:left;
+  margin-bottom :8px;
 }
 </style>
