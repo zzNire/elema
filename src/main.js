@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource'
+import './common/stylus/style.css';
 
 Vue.use(VueResource);
 

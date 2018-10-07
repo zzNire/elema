@@ -12,5 +12,7 @@ export default {
 </script>
 
 <style scoped>
-
+.goods{
+   
+}
 </style>
