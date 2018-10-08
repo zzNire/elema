@@ -11,7 +11,7 @@
   
     <div class="tab">
       <div class="tab-item">
-        <router-link to="/goods" >点餐</router-link>
+        <router-link to="/goods"  :seller="seller">点餐</router-link>
       </div>
       <div class="tab-item">
          <router-link to="/ratings">评论</router-link>
@@ -76,16 +76,19 @@ export default {
 
 .menu{
   margin:5px 0 5px 0;
+ 
 }
 .tab {
   display:flex;
   width: 100%;
   height:40px;
   line-height: 40px;
+  
 }
 .tab-item {
   flex: 1;
   text-align: center;
+  z-index :-1;
 }
 
 .tab-item > a {
@@ -103,9 +106,8 @@ export default {
   content :"";
   width :40%;
   border-bottom :2px solid rgb(73,147,247);
+  z-index :-1;
   
-  
-
 }
 
 .line{
