@@ -37,28 +37,48 @@
         <div class="header-background">
           <img :src="seller.avatar">
         </div>
-
-        <div v-show="infoShow"  class="seller-info">
+<transition name="info-transition">
+        <div v-show="infoShow"  class="seller-info" >
             <div class="detail-wrapper clearfix">
               <div class="info-main" >
-                <p>{{seller.bulletin}}</p>
-                <p>{{seller.bulletin}}</p>
-                <p>{{seller.bulletin}}</p>
-                <p>{{seller.bulletin}}</p>
-                <p>{{seller.bulletin}}</p>
-                
+               <h1 class="seller-name">{{seller.name}}</h1>
+               <star :score="seller.score" :size="48"> </star>
+                <div class="seller-title">
+									<div class="line"></div>
+									<div class="text">优惠信息</div>
+									<div class="line"></div>
+								</div>
+								<ul v-if="seller.supports" class="seller-supports">
+									<li v-for="support in seller.supports" class="support-item">
+											<span :class="saleType[support.type]" class="li-icon"></span>
+											<span class="li-text">{{support.description}}</span>
+									</li>
+								</ul>
+								<div class="seller-title">
+									<div class="line"></div>
+									<div class="text">商家信息</div>
+									<div class="line"></div>
+								</div>
+								<div class="seller-bulletin">
+									<p>{{seller.bulletin}}</p>
+								</div>
               </div>
             </div>
-            <div class="info-close">
+            <div class="info-close" @click="closeDetail">
               <i class="icon-close"></i>
             </div> 
         </div>
-         
+</transition>
     </div>
 </template>
 
 <script>
+import star from "../star/star.vue";
+
 export default {
+  components: {
+    star,
+  },
   props: {
     seller: {
       type: Object,
@@ -84,13 +104,15 @@ export default {
   methods: {
     showDetail() {
       this.infoShow = true;
+    },
+    closeDetail() {
+      this.infoShow = false;
     }
   }
 };
 </script>
 
 <style lang="stylus" scoped>
-
 @import '../../common/stylus/mixin.styl';
 
 .header {
@@ -149,6 +171,7 @@ export default {
   font-size: 16px;
   font-weight: bold;
   line-height: 18px;
+	margin :0 auto 0 auto;
 }
 
 .detals {
@@ -214,37 +237,106 @@ export default {
   margin-bottom: 8px;
 }
 
+.info-transition-enter-active, .info-transition-leave-active {
+  transition: opacity .5s;
+}
+.info-transition-enter, .info-transition-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .seller-info {
   height: 100%;
   width: 100%;
   position: fixed;
-  background: rgba(7, 17, 27, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   top: 0px;
   left: 0px;
-  color :white;
-  overflow:auto;
+  color: white;
+  overflow: auto;
+	backdrop-filter :10px;
 }
 
 .detail-wrapper {
   min-height: 100%;
+	width :100%;
 }
 
 .info-main {
   margin-top: 64px;
-  padding-bottom :64px;
+  padding-bottom: 64px;
 }
 
-.info-close{
-  
-  }
+.seller-name{
+	font-size :18px;
+	font-weight :700
+	line-height 18px;}
+
+.seller-title{
+	display :flex;
+	width :80%;
+	margin :30px auto 24px auto;
+	}
+
+.line{
+	flex:1;
+	position :relative;
+	top:-10px;
+	border-bottom :1px solid rgba(255,255,255,0.2);
+}
+.text{
+	flex:1;
+	font-weight :700;
+	}
+
+.name {
+  line-height: 16px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+.support-item{
+	list-style-type :none;
+	text-align :left;
+	margin-bottom :12px;
+	margin-left :6px;
+}
+.support-item .li-icon{
+	display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  vertical-align:middle;
+	margin-right  :6px;
+}
+.support-item .li-text{
+	font-size :12px;
+	font-weight :200;
+	line-height :12px;
+}
+
+.seller-bulletin{
+	width :80%;
+	margin :0 auto 0 auto;
+}
+.seller-bulletin p{
+	text-align :left;
+	font-size :12px;
+	font-weight 200;
+	line-height :24px;
+	padding :6px;
+}
+
+.info-close {
+}
+
 .icon-close {
-  display :block;
- position:relative;
+  display: block;
+  position: relative;
   height: 32px;
   width: 32px;
-  font-size :32px;
-  margin :-64px auto 0 auto;
-  clear:both;
-
+  font-size: 32px;
+  margin: -64px auto 0 auto;
+  clear: both;
 }
 </style>

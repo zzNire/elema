@@ -11,7 +11,7 @@
   
     <div class="tab">
       <div class="tab-item">
-        <router-link to="/goods" >商品</router-link>
+        <router-link to="/goods" >点餐</router-link>
       </div>
       <div class="tab-item">
          <router-link to="/ratings">评论</router-link>
@@ -89,14 +89,22 @@ export default {
 }
 
 .tab-item > a {
+  position :relative;
   display: block;
   font-size: 14px;
   color: rgb(77, 85, 93);
  
 }
 
-.tab-item > a.router-link-active {
-  color: rgb(240, 20, 20);
+.tab-item > a.router-link-active:before{
+  position :absolute;
+  left :30%;
+  bottom :0px;
+  content :"";
+  width :40%;
+  border-bottom :2px solid rgb(73,147,247);
+  
+  
 
 }
 
