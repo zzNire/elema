@@ -1,4 +1,5 @@
 <template>
+<div class="goods-menu">
   <div class="goods">
     <div class="menu-wrapper">
       <ul class="menu-ul" >
@@ -43,16 +44,21 @@
       </ul>
 
     </div>
+
+  </div>
+  <shopcar class="shop-car"> </shopcar>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll'
+  import shopcar from './shopcar/shopcar.vue'
   const ERR_OK = 0;
   import spanIcon from "../spanIcon/spanIcon.vue";
   export default {
     components: {
-      spanIcon
+      spanIcon,
+      shopcar
     },
     props: {
       seller: {
@@ -74,7 +80,7 @@
           if (response.errno === ERR_OK) {
             this.goods = response.data;
             console.log(this.goods);
-            this.$nextTick(()=>{
+            this.$nextTick(()=>{   //等到整个视图都渲染完毕
                 this.initScroll();
                 this.calculateHight();
             })
@@ -82,10 +88,6 @@
         },
         response => {}
       );
-    },
-    updated() { //在元素挂在完之后进行Scroll的初始化 才能获得dom
-      
-     
     },
     methods: {
       initScroll() {
@@ -147,6 +149,10 @@
     list-style-type: none;
   }
 
+.goods-menu{
+  height: 100%;
+  width: 100%;
+}
   .goods {
     display: flex;
     position: absolute;
@@ -189,7 +195,7 @@
     list-style-type: none;
     font-size: 12px;
     line-height: 14px;
-    height: 54px;
+    height: 52px;
     width:100%;
     padding: 12px 12px 12px 12px;
     color: rgb(7, 17, 27);
@@ -295,5 +301,7 @@
     text-decoration: line-through;
     margin-left: 8px;
   }
+.shop-car{
 
+}
 </style>
