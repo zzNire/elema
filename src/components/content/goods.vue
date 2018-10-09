@@ -1,16 +1,22 @@
 <template>
   <div class="goods">
     <div class="menu-wrapper">
-      <ul class="menu-ul">
-        <li class="menu-li" v-for="good in goods">
-          <span-icon class="icon-li" v-if="good.type != -1" :iconType="good.type" :iconSize="12"></span-icon>
-          <span class="text-li">{{good.name}}</span>
+      <ul class="menu-ul" >
+        <li class="menu-li" 
+        :class="currentIndex === index ? 'currentItem' :'' " 
+        v-for="(good,index) in goods "
+        @click="selectMenu(index)" >
+        
+          
+          <span class="text-li">
+            <span-icon class="icon-li" v-if="good.type != -1" :iconType="good.type" :iconSize="12"></span-icon>{{good.name}}</span>
+       
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodsWrapper">
       <ul class="goods-ul">
-        <li class="goods-li" v-for="goodType in goods">
+        <li class="goods-li goods-li-hook" v-for="goodType in goods">
           <p class="type-name">{{goodType.name}}</p>
           <ul class="food-in-type">
             <li class="food-in-type-li" v-for="food in goodType.foods">
@@ -56,7 +62,9 @@
     },
     data() {
       return {
-        goods: []
+        goods: [],
+        listHeight:[],
+        scrollY,
       };
     },
     created() {
@@ -66,23 +74,70 @@
           if (response.errno === ERR_OK) {
             this.goods = response.data;
             console.log(this.goods);
+            this.$nextTick(()=>{
+                this.initScroll();
+                this.calculateHight();
+            })
           }
         },
         response => {}
       );
     },
-    mounted() { //在元素挂在完之后进行Scroll的初始化 才能获得dom
-      this.initScroll();
+    updated() { //在元素挂在完之后进行Scroll的初始化 才能获得dom
+      
+     
     },
     methods: {
       initScroll() {
         let wrapper = document.querySelector('.menu-wrapper');
-        this.scroll = new BScroll(wrapper, {});
+        this.scroll = new BScroll(wrapper, {
+          click:true,
+        });
 
         let wrapperFood = document.querySelector('.foods-wrapper');
-        this.scrollFood = new BScroll(wrapperFood, {});
+        this.scrollFood = new BScroll(wrapperFood, {
+          probeType:3,
+        });
+       this.scrollFood.on('scroll',(pos)=>{
+         this.scrollY = Math.abs (Math.round(pos.y));
+       });
+      },
+      calculateHight(){
+        let height = 0;
+        this.listHeight.push(height);
+        let foodLi = this.$refs.foodsWrapper.getElementsByClassName("goods-li-hook");
+       //console.log("foodli");
+       //console.log(foodLi);
+       //console.log(foodLi.length);
+        for(let i = 0; i < foodLi.length ; i++)
+        {
+          //console.log("height"+height);
+            height+=foodLi[i].clientHeight;
+            this.listHeight.push(height);
+        }
+      },
+      selectMenu(index){
+        console.log(index);
+        this.scrollY = this.listHeight[index];
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName("goods-li-hook");
+        let el = foodList[index]
+        this.scrollFood.scrollToElement(el,300);
       }
-    }
+    },
+    computed:{
+      currentIndex(){
+        for (let i=0;i<this.listHeight.length;i++)
+        {
+          if(!this.listHeight[i+1] ||
+          (this.scrollY >= this.listHeight[i] && this.scrollY < this.listHeight[i+1]))
+          {
+            return i;
+          }
+        }
+        return 0;
+      }
+    },
+
   };
 
 </script>
@@ -114,6 +169,10 @@
     background: #f3f5f7;
   }
 
+.currentItem{
+  background: white;
+  font-weight: bold;
+}
   .foods-wrapper {
     flex: 1;
     margin: 0px;
@@ -126,25 +185,29 @@
   }
 
   .menu-li {
-    text-align: left;
     display: table;
     list-style-type: none;
     font-size: 12px;
+    line-height: 14px;
     height: 54px;
+    width:100%;
     padding: 12px 12px 12px 12px;
-    font-size: 12px;
     color: rgb(7, 17, 27);
+    
   }
 
   .icon-li {
-    vertical-align: middle;
+   
     margin-right: 3px;
   }
 
+
   .text-li {
-    text-align: left;
+    display: table-cell;
+    width: 80px;
     vertical-align: middle;
     line-height: 14px;
+    text-align: left;
   }
 
   .type-name {

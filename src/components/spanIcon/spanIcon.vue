@@ -42,11 +42,12 @@ export default {
 
 .spanIcon{
     display :inline-block;
-    vertical-align: middle;
+    vertical-align: middle ;
 }
 .icon {
   display: inline-block;
   background-repeat: no-repeat;
+ 
   
 }
 

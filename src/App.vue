@@ -74,6 +74,9 @@ export default {
   color: #2c3e50;
 }
 
+.header{
+  z-index:10;
+}
 .menu{
   margin:5px 0 5px 0;
  
@@ -88,7 +91,7 @@ export default {
 .tab-item {
   flex: 1;
   text-align: center;
-  z-index :-1;
+  z-index :0;
 }
 
 .tab-item > a {
