@@ -36,7 +36,8 @@
                   <span class="food-oldprice" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="shop-contral">
-                  <shopcar-contral :food="food"></shopcar-contral>
+                  <shopcar-contral :food="food"
+                    @selectFood="selectFood"></shopcar-contral>
                 </div>
 
               </div>
@@ -51,7 +52,9 @@
   </div>
   <shopcar class="shop-car"
     :deliveryPrice="seller.deliveryPrice"
-    :minPrice="seller.minPrice"> </shopcar>
+    :minPrice="seller.minPrice"
+    :selectFoods="selectFoods"
+    ref="shopcar"> </shopcar>
   </div>
 </template>
 
@@ -134,6 +137,22 @@
         let foodList = this.$refs.foodsWrapper.getElementsByClassName("goods-li-hook");
         let el = foodList[index]
         this.scrollFood.scrollToElement(el,300);
+      },
+      selectFood(food,data)
+      {
+          if(!food.count)
+          {
+            this.$set(food,'count',data)
+          }
+          else{
+            food.count = data;
+          }
+      },
+      _drop(target){
+        this.$refs.shopcar.ballDrop(target);//调用子组件方法 传入dom
+      },
+      selectFood(target){
+        this._drop(target);
       }
     },
     computed:{
@@ -148,6 +167,18 @@
         }
         return 0;
       },
+      selectFoods(){
+        let selectfood = [];
+        this.goods.forEach((good)=>{
+            good.foods.forEach((food)=>{
+              if(food.count>0)
+              {
+                selectfood.push(food);
+              }
+            })
+        });
+        return selectfood;
+      }
      
       
     },

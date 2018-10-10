@@ -22,12 +22,25 @@
             <span>另需配送费{{deliveryPrice}}元</span>
         </div>
 
-      <div class="content-right" :class="{'min-hasFood':totalPrice>minPrice}">
+      <div class="content-right" :class="{'min-hasFood':totalPrice>=minPrice}">
         <span >{{payDesc}}</span>
         <div class="delivery">
 
         </div>
       </div>
+    </div>
+    <div class="ball-container">
+      <transition name="ball" 
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter">
+        <div v-for="ball in balls"
+          v-if="ball.show" class="every-ball">
+          <div class="inner" ref="inner">
+
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -35,6 +48,28 @@
 
 <script>
   export default {
+    data(){
+      return {
+        balls:[
+          {
+            show:false,
+          },
+          {
+            show:false,
+          },
+          {
+            show:false,
+          },
+          {
+            show:false,
+          },
+          {
+            show:false,
+          },
+        ],
+        dropBall:[],
+      }
+    },
     props:{
       selectFoods:{
         type: Array,
@@ -54,27 +89,21 @@
     computed:{
       totalPrice(){
         let price = 0;
-        for(let i=0;i<this.selectFoods;i++)
+        for(let i=0 ;i<this.selectFoods.length ; i++)
         {
-          price += selectFoods[i].price;
+          price += this.selectFoods[i].price * this.selectFoods[i].count;
         }
-        //return price;
-        return 23;
+        return price;
+        
       },
       totalCount(){
         let count = 0;
-        for(let i=0;i<this.selectFoods;i++)
+        for(let i=0;i<this.selectFoods.length ;i++)
         {
-          count += selectFoods[i].count;
+          count += this.selectFoods[i].count;
         }
-        //return count;
-        return 1;
-      },
-      stillNeed(){
-        let need = this.minPrice-this.totalPrice();
-        if(need >0 )
-        return need;
-        else return 0;
+        return count;
+        
       },
       payDesc(){
         if(this.totalPrice === 0)
@@ -96,10 +125,68 @@
           return `￥${this.totalPrice}`;
         }
         else{
-          return "未选购商品";
+          return "￥0";
         }
       }
-    }
+    },
+    methods:{
+      ballDrop(el){
+        console.log(el);
+        for(let i=0;i<this.balls.length;i++)
+        {
+          let ball = this.balls[i];
+          if(ball.show === false)
+          {
+            ball.show = true;
+            ball.el = el;
+            this.dropBall.push(ball);
+            return ;
+          }
+        }
+        
+      },
+        beforeEnter(el){
+          let count = this.balls.length;
+          while(count--)
+          {
+            let ball = this.balls[count];
+            if(ball.show){
+              let ract = ball.el.getBoundingClientRect();
+              let x = ract.left;
+              let y = -(window.innerHeight - ract.top - 22);
+              el.style.display = '';
+              el.style.webkitTransform = `translate3d(0,${y}px,0)`;
+              el.style.transform = `translate3d(0,${y}px,0)`;
+              el.style.webkitTransition = 'all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)';
+              el.style.transition = 'all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)';
+              let inner = this.$refs.inner[0];
+              inner.style.webkitTransform = `translate3d(${x}px,0,0)`;
+               inner.style.transform = `translate3d(${x}px,0,0)`;
+                inner.style.webkitTransition = 'all .4s linear';
+               inner.style.transition ='all .4s linear';
+            }
+          }
+        },
+        enter(el){
+            let rf = el.offestHeight;
+            this.$nextTick(()=>{
+              el.style.webkitTransform = 'translate3d(0,0,0)';
+              el.style.transform = 'translate3d(0,0,0)';
+              let inner = this.$refs.inner[0];
+              inner.style.webkitTransform = 'translate3d(0,0,0)';
+              inner.style.transform = 'translate3d(0,0,0)';
+            });
+        },
+        afterEnter(el){
+            let ball = this.dropBall.shift();
+            if(ball){
+              ball.show = false;
+              el.style.display = null;
+            }
+        }
+      
+    },
+
   }
 
 </script>
@@ -231,5 +318,27 @@
 
     .min-hasFood{
       background :rgb(64,196,120);
+    }
+
+.ball-container{
+  } 
+
+.every-ball{
+  position :fixed;
+  bottom :22px;
+  left :32px;
+  z-index:100;
+      }
+
+  .ball-enter-active{
+    
+    }
+
+  .inner {
+    width :16px;
+    height :16px;
+    background : rgb(73,147,247);;
+    border-radius :50%;
+    
     }
 </style>

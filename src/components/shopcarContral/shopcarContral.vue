@@ -28,11 +28,16 @@
           this.$set(this.food, 'count', 1);
 
         } else
-          this.food.count++;
+         { 
+             this.food.count++;
+             }
+
+        this.$emit("selectFood",event.target);
         console.log('food' + this.food.count);
       },
       cancleFood() {
         this.food.count--;
+         //this.$emit("selectFood",this.food.count)
       },
     },
 
