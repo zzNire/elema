@@ -138,16 +138,6 @@
         let el = foodList[index]
         this.scrollFood.scrollToElement(el,300);
       },
-      selectFood(food,data)
-      {
-          if(!food.count)
-          {
-            this.$set(food,'count',data)
-          }
-          else{
-            food.count = data;
-          }
-      },
       _drop(target){
         this.$refs.shopcar.ballDrop(target);//调用子组件方法 传入dom
       },

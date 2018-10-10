@@ -152,8 +152,10 @@
             let ball = this.balls[count];
             if(ball.show){
               let ract = ball.el.getBoundingClientRect();
-              let x = ract.left;
-              let y = -(window.innerHeight - ract.top - 22);
+              let x = ract.left - 24;
+              
+              let y = -(window.innerHeight - ract.top - 24);
+             // console.log(x+ " "+ y);
               el.style.display = '';
               el.style.webkitTransform = `translate3d(0,${y}px,0)`;
               el.style.transform = `translate3d(0,${y}px,0)`;
@@ -327,7 +329,7 @@
   position :fixed;
   bottom :22px;
   left :32px;
-  z-index:100;
+  z-index:-1;
       }
 
   .ball-enter-active{
