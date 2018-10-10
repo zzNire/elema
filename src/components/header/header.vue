@@ -201,7 +201,9 @@ export default {
   background-repeat: no-repeat;
   vertical-align: sub;
 }
-
+.sale-info{
+  line-height :16px;
+}
 .decrease {
   bg-image('decrease_3');
 }

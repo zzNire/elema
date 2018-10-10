@@ -11,7 +11,7 @@
   
     <div class="tab">
       <div class="tab-item">
-        <router-link to="/goods"  :seller="seller">点餐</router-link>
+        <router-link to="/goods" >点餐</router-link>
       </div>
       <div class="tab-item">
          <router-link to="/ratings">评论</router-link>
@@ -24,7 +24,7 @@
   </div>
 
     <div class="content"> 
-      <router-view></router-view>
+      <router-view  :seller="seller"></router-view>
     </div>
   </div>
 </template>

@@ -26,7 +26,7 @@
               </div>
               <div class="food-info">
                 <h2 class="food-name">{{food.name}}</h2>
-                <p class="food-description">{{food.description}}</p>
+                <p class="food-description" v-if="food.description">{{food.description}}</p>
                 <div class="food-detail">
                   <span class="food-sellCount">月售{{food.sellCount}}</span>
                   <span class="food-rating">好评率{{food.rating}}%</span>
@@ -34,6 +34,9 @@
                 <div class="price">
                   <span class="food-price">￥{{food.price}}</span>
                   <span class="food-oldprice" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
+                </div>
+                <div class="shop-contral">
+                  <shopcar-contral :food="food"></shopcar-contral>
                 </div>
 
               </div>
@@ -46,7 +49,9 @@
     </div>
 
   </div>
-  <shopcar class="shop-car"> </shopcar>
+  <shopcar class="shop-car"
+    :deliveryPrice="seller.deliveryPrice"
+    :minPrice="seller.minPrice"> </shopcar>
   </div>
 </template>
 
@@ -55,15 +60,17 @@
   import shopcar from './shopcar/shopcar.vue'
   const ERR_OK = 0;
   import spanIcon from "../spanIcon/spanIcon.vue";
+  import shopcarContral from "../shopcarContral/shopcarContral.vue"
   export default {
     components: {
       spanIcon,
-      shopcar
+      shopcar,
+      shopcarContral
     },
     props: {
       seller: {
-        type: Object
-        // required: true
+        type: Object,
+        required: true
       }
     },
     data() {
@@ -85,6 +92,7 @@
                 this.calculateHight();
             })
           }
+           
         },
         response => {}
       );
@@ -98,7 +106,9 @@
 
         let wrapperFood = document.querySelector('.foods-wrapper');
         this.scrollFood = new BScroll(wrapperFood, {
+          click:true,
           probeType:3,
+         
         });
        this.scrollFood.on('scroll',(pos)=>{
          this.scrollY = Math.abs (Math.round(pos.y));
@@ -137,7 +147,9 @@
           }
         }
         return 0;
-      }
+      },
+     
+      
     },
 
   };
@@ -231,7 +243,7 @@
   }
 
   .food-in-type-li {
-    width: 85%;
+    width: 90%;
     display: flex;
     margin: 18px 0 18px 18px;
   }
@@ -247,7 +259,6 @@
 
   .food-info {
     flex: 1;
-    margin-left: 10px;
     font-size: 10px;
     color: rgb(147, 153, 159);
     position: relative;
@@ -274,6 +285,7 @@
 
   .food-detail {
     margin-bottom: 8px;
+   
   }
 
   .food-sellCount {
@@ -300,6 +312,13 @@
     font-weight: 700;
     text-decoration: line-through;
     margin-left: 8px;
+  }
+
+  .shop-contral{
+    position: absolute;
+    height:24px;
+    right: 0;
+    bottom: 0;
   }
 .shop-car{
 

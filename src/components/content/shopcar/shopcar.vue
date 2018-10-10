@@ -3,23 +3,27 @@
     <div class="content">
       <div class="content-left">
 
-        <div class="shopcar-logo">
+        <div class="shopcar-logo" :class="{'shopcar-logo-hasFood':totalCount>0}">
           <div class="logo">
-            <span class="icon-shopping_cart"></span>
+            <span class="icon-shopping_cart" 
+              :class="{'icon-shopping_hasFood':totalCount>0}"></span>
           </div>
+          <span class="count" v-if="totalCount>0">{{totalCount}}</span>
         </div>
         
       </div>
       <div class="content-middle">
-          <div class="price">
-           <span> 未选购商品</span>
+          <div class="price" :class="{'price-hasFood':totalPrice>0}">
+           <span> {{pickDesc}}</span>
         </div>
-        <div class="description">
-            <span>另需配送费{{}}元</span>
-        </div>
+        
       </div>
-      <div class="content-right">
-        <span >￥{{}}起送</span>
+      <div class="description">
+            <span>另需配送费{{deliveryPrice}}元</span>
+        </div>
+
+      <div class="content-right" :class="{'min-hasFood':totalPrice>minPrice}">
+        <span >{{payDesc}}</span>
         <div class="delivery">
 
         </div>
@@ -31,7 +35,71 @@
 
 <script>
   export default {
-
+    props:{
+      selectFoods:{
+        type: Array,
+        default(){
+          return [];
+        }
+      },
+      deliveryPrice:{
+        type: Number,
+        default:0,
+      },
+      minPrice:{
+        type: Number,
+       default:0,
+      }
+    },
+    computed:{
+      totalPrice(){
+        let price = 0;
+        for(let i=0;i<this.selectFoods;i++)
+        {
+          price += selectFoods[i].price;
+        }
+        //return price;
+        return 23;
+      },
+      totalCount(){
+        let count = 0;
+        for(let i=0;i<this.selectFoods;i++)
+        {
+          count += selectFoods[i].count;
+        }
+        //return count;
+        return 1;
+      },
+      stillNeed(){
+        let need = this.minPrice-this.totalPrice();
+        if(need >0 )
+        return need;
+        else return 0;
+      },
+      payDesc(){
+        if(this.totalPrice === 0)
+        {
+          return `￥${this.minPrice}元起送`;
+        }
+        else if(this.totalPrice < this.minPrice)
+        {
+          let diff = this.minPrice - this.totalPrice;
+          return `还差￥${diff}元起送`;
+        }
+        else {
+          return "去结算"
+        }
+      },
+      pickDesc(){
+        if(this.totalCount>0)
+        {
+          return `￥${this.totalPrice}`;
+        }
+        else{
+          return "未选购商品";
+        }
+      }
+    }
   }
 
 </script>
@@ -79,11 +147,31 @@
     border: solid rgb(68, 68, 68) 6px;
 
   }
-
+  .shopcar-logo-hasFood{
+    background-color : rgb(73,147,247);
+    
+  }
   .logo {
     width: 100%;
     height: 100%;
     text-align: center;
+  }
+
+  .count{
+    position :absolute;
+    top:-8px;
+    right:-3px;
+    height 18px;
+    min-width :18px;
+    padding :0 3px;
+    font-size :12px;
+    line-height :18px;
+    text-align :center;
+    border-radius :16px;
+    color :white;
+    background :rgb(240,20,20);
+    box-shadow :0 4px 8px 0 rgba(0,0,0,0.4);
+
   }
 
   .icon-shopping_cart:before {
@@ -94,22 +182,40 @@
 
   }
 
+  .icon-shopping_hasFood:before{
+    color :white;
+  }
+
 .content-middle{
+
     flex:1
     text-align :left;
+    height :100%;
     color :rgb(108, 109, 119);
-    font-size :12px;
-    vertical-align:middle;
-    margin-top :5px;
-    
+   
     }
 
 .price{
-    font-size :80%;
-    }
+  height :38px;
+  line-height :46px;
+ vertical-align :middle;
+  font-size :16px;
+  font-weight :500;
+  
+}
 
+.price-hasFood{
+  color :white;
+
+  
+}
 .description{
-    font-size :50%;
+  vertical-align :middle;
+   text-align :left;
+    color :rgb(108, 109, 119);
+    flex :3;
+    font-size :13px;
+    line-height :46px;
     }
         
   .content-right {
@@ -119,5 +225,11 @@
 .content-right{
     color :white;
     line-height :46px;
+    background :rgb(83,83,85);
+    font-size :13px;
+    }
+
+    .min-hasFood{
+      background :rgb(64,196,120);
     }
 </style>
