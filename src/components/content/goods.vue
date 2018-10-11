@@ -64,6 +64,7 @@
   const ERR_OK = 0;
   import spanIcon from "../spanIcon/spanIcon.vue";
   import shopcarContral from "../shopcarContral/shopcarContral.vue"
+  
   export default {
     components: {
       spanIcon,

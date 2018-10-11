@@ -30,44 +30,52 @@
       </div>
     </div>
     <div class="ball-container">
-      <transition name="ball" 
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter">
-        <div v-for="ball in balls"
-          v-if="ball.show" class="every-ball">
-          <div class="inner" ref="inner">
-
-          </div>
-        </div>
-      </transition>
+      <transition v-for="(ball,index) in balls" 
+        :key="index" name="drop-ball"
+      
+        @before-enter="beforeDrop"
+        @enter="dropping"
+        @after-enter="afterDrop"
+        >
+            <div class="ball"   v-show="ball.show" :css="false">
+                <div class="inner-hook" :class="index"></div>
+            </div>
+        </transition>
     </div>
+   
   </div>
 </template>
 
 
 <script>
+
+  import ball from "./ball.vue";
+
   export default {
+    components:{
+        ball,
+    },
     data(){
       return {
-        balls:[
-          {
-            show:false,
-          },
-          {
-            show:false,
-          },
-          {
-            show:false,
-          },
-          {
-            show:false,
-          },
-          {
-            show:false,
-          },
-        ],
-        dropBall:[],
+         balls:[
+                {
+                    show:false,
+                },
+                 {
+                    show:false,
+                },
+                 {
+                    show:false,
+                },
+                 {
+                    show:false,
+                },
+                 {
+                    show:false,
+                },
+
+            ],
+          dropBall:[],
       }
     },
     props:{
@@ -131,61 +139,61 @@
     },
     methods:{
       ballDrop(el){
-        console.log(el);
-        for(let i=0;i<this.balls.length;i++)
-        {
-          let ball = this.balls[i];
-          if(ball.show === false)
-          {
-            ball.show = true;
-            ball.el = el;
-            this.dropBall.push(ball);
-            return ;
-          }
-        }
+         for(let i=0; i<this.balls.length; i++) {
+                        let ball = this.balls[i]
+                        if(!ball.show) {
+                            ball.show = true
+                            ball.el = el
+                            this.dropBall.push(ball)
+                            return
+                        }
+                    }
         
       },
-        beforeEnter(el){
-          let count = this.balls.length;
-          while(count--)
-          {
-            let ball = this.balls[count];
-            if(ball.show){
-              let ract = ball.el.getBoundingClientRect();
-              let x = ract.left - 24;
-              
-              let y = -(window.innerHeight - ract.top - 24);
-             // console.log(x+ " "+ y);
-              el.style.display = '';
-              el.style.webkitTransform = `translate3d(0,${y}px,0)`;
-              el.style.transform = `translate3d(0,${y}px,0)`;
-              el.style.webkitTransition = 'all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)';
-              el.style.transition = 'all .4s cubic-bezier(0.49, -0.29, 0.75, 0.41)';
-              let inner = this.$refs.inner[0];
-              inner.style.webkitTransform = `translate3d(${x}px,0,0)`;
-               inner.style.transform = `translate3d(${x}px,0,0)`;
-                inner.style.webkitTransition = 'all .4s linear';
-               inner.style.transition ='all .4s linear';
-            }
-          }
+        beforeDrop(el){
+        let count = this.balls.length
+                    while(count--) {
+                        let ball = this.balls[count]
+                        if(ball.show) {
+                            // 获得点击处相对于浏览器的位置
+                            let rect = ball.el.getBoundingClientRect()
+                            // 小球要移动的横坐标
+                            let x = rect.left - 32
+                            // 小球要移动的纵坐标
+                            let y = -(window.innerHeight - rect.top - 22)
+                            el.style.webkitTransform = 'translate3d(0,' + y +'px,0)'
+                            el.style.transform = 'translate3d(0,'+ y +'px,0)'
+                            let inner = el.getElementsByClassName('inner-hook')[0]
+                            inner.style.webkitTransform = 'translate3d('+ x +'px,0,0)'
+                            inner.style.transform = 'translate3d('+ x +'px,0,0)' 
+                        } 
+                    }
         },
-        enter(el){
-            let rf = el.offestHeight;
-            this.$nextTick(()=>{
-              el.style.webkitTransform = 'translate3d(0,0,0)';
-              el.style.transform = 'translate3d(0,0,0)';
-              let inner = this.$refs.inner[0];
-              inner.style.webkitTransform = 'translate3d(0,0,0)';
-              inner.style.transform = 'translate3d(0,0,0)';
-            });
+        dropping(el){
+        
+          let rf = el.offsetHeight
+                    this.$nextTick(()=>{
+                        el.style.webkitTransform = 'translate3d(0,0,0)'
+                        el.style.transform = 'translate3d(0,0,0)'
+                        let inner = el.getElementsByClassName('inner-hook')[0]
+                        inner.style.webkitTransform = 'translate3d(0,0,0)'
+                        inner.style.transform = 'translate3d(0,0,0)'
+                    });
+
+           
+             
+            
         },
-        afterEnter(el){
-            let ball = this.dropBall.shift();
-            if(ball){
-              ball.show = false;
-              el.style.display = null;
-            }
-        }
+        afterDrop(el){
+           let ball = this.dropBall.shift()
+                    if(ball){
+                        ball.show = false
+                        el.style.display = 'none'
+                    }
+           
+            
+        },
+       
       
     },
 
@@ -323,24 +331,22 @@
     }
 
 .ball-container{
+
   } 
 
-.every-ball{
-  position :fixed;
-  bottom :22px;
-  left :32px;
-  z-index:-1;
-      }
+  .ball{
+    position fixed;
+    left 32px;
+    bottom 22px;
+    z-index 200;
+    transition all 0.4s cubic-bezier(0.49,-0.29,0.75,0.41);
+  }
 
-  .ball-enter-active{
-    
-    }
-
-  .inner {
-    width :16px;
-    height :16px;
-    background : rgb(73,147,247);;
-    border-radius :50%;
-    
-    }
+  .inner-hook{
+    width 16px;
+      height 16px;
+      border-radius 50%;
+      background-color rgb(0,160,220);
+      transition all 0.4s linear;
+  }
 </style>

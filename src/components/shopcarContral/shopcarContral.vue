@@ -63,7 +63,7 @@
     font-size: 24px;
     color: #4993f7;
     transform :rotate(0);
-    transition :all 0.5s linear;
+    transition :all 0.4s linear;
   }
 
 .move-enter , .move-leave-to{
@@ -80,7 +80,7 @@
     }
 
 .move-enter-active , .move-leave-active{
-    transition:all 0.5s linear;
+    transition:all 0.4s linear;
   }
 
 .move-enter-to ,.decrease {
@@ -104,7 +104,7 @@
 
 
 .price-enter-active , .price-leave-active{
-    transition:all 0.5s linear;
+    transition:all 0.4s linear;
   }
 
 
