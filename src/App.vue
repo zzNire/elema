@@ -1,8 +1,8 @@
 <template>
   <div id="app">
 
-    <div class="header">
-      <my-header :seller="seller"> 
+    <div class="header" ref="header">
+      <my-header :seller="seller" @changeZIndex="changeZIndex"> 
         <p>test</p>
       </my-header>
     </div>
@@ -57,6 +57,11 @@ export default {
 
     });
   },
+  methods:{
+    changeZIndex(zindex){
+      this.$refs.header.style.zIndex = zindex;
+    }
+  }
 
 }
 </script>
@@ -75,12 +80,16 @@ export default {
 }
 
 .header{
-  z-index:10;
+  position :relative;
+  z-index:0;
 }
 .menu{
+  position :relative;
+  z-index :0;
   margin:5px 0 5px 0;
  
 }
+
 .tab {
   display:flex;
   width: 100%;
@@ -113,6 +122,10 @@ export default {
   
 }
 
+.cotent{
+  position :relative;
+  z-index :0;
+}
 .line{
   border-1px(rgba(7, 17, 27,0.1))
 }

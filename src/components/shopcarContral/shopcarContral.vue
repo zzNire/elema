@@ -23,7 +23,9 @@
       },
     },
     methods: {
-      buyFood() {
+      buyFood() { 
+        console.log(event.target);
+         this.$emit("selectFood",event.target);
         if (!this.food.count) {
           this.$set(this.food, 'count', 1);
 
@@ -32,16 +34,16 @@
              this.food.count++;
              }
 
-        this.$emit("selectFood",event.target);
+       
         console.log('food' + this.food.count);
+       
       },
       cancleFood() {
         this.food.count--;
          //this.$emit("selectFood",this.food.count)
       },
     },
-
-
+    
   }
 
 </script>
@@ -50,20 +52,31 @@
   @import '../../common/stylus/mixin.styl';
 
 .shop-contral {
+  height :24px;
     display: flex;
     font-size: 0px;
+   
+    vertical-align :middle;
   }
 
 .cart-decrease{
+  height :24px;
+  width :24px;
     display :inline-block;
+    
 
 }
 .decrease {
+   height :24px;
+  width :24px;
     display: inline-block;
     font-size: 24px;
+     line-height :24px;
     color: #4993f7;
     transform :rotate(0);
     transition :all 0.4s linear;
+    vertical-align :middle;
+   
   }
 
 .move-enter , .move-leave-to{
@@ -127,10 +140,13 @@
   }
 
   .add {
+    
+     height :24px;
+    width :24px;
     display: inline-block;
-
     font-size: 24px;
     color: #4993f7;
+    line-height :24px;
   }
 
   .icon-add_circle:before {

@@ -6,8 +6,12 @@ import router from './router'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource'
 import './common/stylus/style.css';
+import 'animate.css'
+import vBlur from 'v-blur';
+
 
 Vue.use(VueResource);
+Vue.use(vBlur);
 
 /* eslint-disable no-new */
 new Vue({

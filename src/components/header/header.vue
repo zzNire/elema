@@ -1,5 +1,6 @@
 <template>
     <div class="header">
+      <div class="header-all">
       <div class="icon"> 
                 <img :src="seller.avatar" height="64" width="64">
             </div>
@@ -33,6 +34,7 @@
                </div>
             </div>
         </div>
+      </div>
       </div>
         <div class="header-background">
           <img :src="seller.avatar">
@@ -104,9 +106,11 @@ export default {
   methods: {
     showDetail() {
       this.infoShow = true;
+      this.$emit("changeZIndex",10); //在显示具体信息时，使header层次大于content
     },
     closeDetail() {
       this.infoShow = false;
+      this.$emit("changeZIndex",0);//在关闭具体信息时，恢复原状
     }
   }
 };
@@ -247,6 +251,8 @@ export default {
 }
 
 .seller-info {
+  position :relative;
+  z-index:150;
   height: 100%;
   width: 100%;
   position: fixed;
