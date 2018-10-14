@@ -156,6 +156,7 @@
     },
     methods: {
       togglelList() {
+        
         console.log("show");
         if (!this.totalCount) {
           return;
@@ -163,6 +164,7 @@
         this.showList = !this.showList;
         if (this.showList) {
           console.log("scroll");
+          this.$emit("blurBk",true);
           if (!this.listScroll) {
             this.$nextTick(() => {
               let list = this.$refs.listWrapper;
@@ -181,6 +183,9 @@
             
           }
 
+        }
+        else{
+          this.$emit("blurBk",false);
         }
       },
       ballDrop(el) {

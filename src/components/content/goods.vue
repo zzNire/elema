@@ -1,6 +1,6 @@
 <template>
   <div class="goods-menu">
-    <div class="goods">
+    <div class="goods" :class="{'backgroundBlur':backgroundBlur}">
       <div class="menu-wrapper">
         <ul class="menu-ul">
           <li class="menu-li" :class="currentIndex === index ? 'currentItem' :'' " v-for="(good,index) in goods "
@@ -19,7 +19,7 @@
           <li class="goods-li goods-li-hook" v-for="goodType in goods">
             <p class="type-name">{{goodType.name}}</p>
             <ul class="food-in-type">
-              <li class="food-in-type-li" v-for="food in goodType.foods">
+              <li class="food-in-type-li" v-for="food in goodType.foods" @click="showFoodDetial(food,$event)">
                 <div class="food-img">
                   <img :src="food.icon">
                 </div>
@@ -48,8 +48,17 @@
       </div>
 
     </div>
+    <transition name="detial">
+      <food-detial class="food-show" 
+      v-show="showFlag" 
+      :food="selectedFood"
+      :showTag="showFlag"
+      @hideDetial="hideDetial"
+      @startDrop="startDrop"></food-detial>
+    </transition>
+
     <shopcar class="shop-car" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selectFoods="selectFoods"
-      ref="shopcar"> </shopcar>
+      ref="shopcar" @blurBk="blurBk"> </shopcar>
   </div>
 </template>
 
@@ -59,12 +68,14 @@
   const ERR_OK = 0;
   import spanIcon from "../spanIcon/spanIcon.vue";
   import shopcarContral from "../shopcarContral/shopcarContral.vue"
+  import foodDetial from "./food/foodDetial.vue"
 
   export default {
     components: {
       spanIcon,
       shopcar,
-      shopcarContral
+      shopcarContral,
+      foodDetial
     },
     props: {
       seller: {
@@ -77,6 +88,9 @@
         goods: [],
         listHeight: [],
         scrollY,
+        backgroundBlur: false,
+        selectedFood: {},
+        showFlag: false,
       };
     },
     created() {
@@ -141,6 +155,21 @@
       },
       selectFood(target) {
         this._drop(target);
+      },
+      blurBk(tag) {
+        console.log("to APP" + tag);
+        this.backgroundBlur = tag;
+        this.$emit("appBlur", tag);
+      },
+      showFoodDetial(food, event) {
+        this.selectedFood = food;
+        this.showFlag = true;
+      },
+      hideDetial(tag){
+        this.showFlag = tag;
+      },
+      startDrop(target){
+        this._drop(target);
       }
     },
     computed: {
@@ -190,6 +219,11 @@
     bottom: 46px;
     overflow: hidden;
     z-index: -1;
+
+  }
+
+  .backgroundBlur {
+    filter: blur(5px);
   }
 
   .goods-ul {
@@ -340,5 +374,22 @@
   }
 
   .shop-car {}
+
+  .food-show {}
+
+  .detial-enter,
+  .detial-leave-to {
+
+    transform: translate3d(100%, 0, 0);
+  }
+
+  .detial-enter-active,
+  .detial-leave-active {
+    transition: all 0.5s ease;
+  }
+
+  .detial-enter-to .detial-leave {
+    transform: translate3d(0, 0px, 0);
+  }
 
 </style>

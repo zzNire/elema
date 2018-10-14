@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-
-    <div class="header" ref="header">
+    
+    <div class="header" ref="header" :class="{'backgroundBlur':backgroundBlur}">  
       <my-header :seller="seller" @changeZIndex="changeZIndex"> 
         <p>test</p>
       </my-header>
     </div>
 
-  <div class="menu">
+  <div class="menu" :class="{'backgroundBlur':backgroundBlur}">
   
     <div class="tab">
-      <div class="tab-item">
+      <div class="tab-item" >
         <router-link to="/goods" >点餐</router-link>
       </div>
       <div class="tab-item">
@@ -24,7 +24,8 @@
   </div>
 
     <div class="content"> 
-      <router-view  :seller="seller"></router-view>
+      <router-view  :seller="seller"
+        @appBlur="appBlur"></router-view>
     </div>
   </div>
 </template>
@@ -38,7 +39,7 @@ export default {
   data(){
     return{
       seller:{},
-
+      backgroundBlur:false,
     };
   },
   components:{
@@ -60,7 +61,12 @@ export default {
   methods:{
     changeZIndex(zindex){
       this.$refs.header.style.zIndex = zindex;
-    }
+    },
+
+    appBlur(tag){
+          console.log("app blur");
+          this.backgroundBlur = tag;   
+      },
   }
 
 }
@@ -77,11 +83,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
 
+}
+.backgroundBlur{
+  filter :blur(5px);
+}
 .header{
   position :relative;
   z-index:0;
+  
 }
 .menu{
   position :relative;

@@ -3,13 +3,13 @@
     <transition name="move">
         <div class="cart-decrease"  v-if="food.count">
             <span class="decrease icon-remove_circle_outline" 
-             @click="cancleFood"></span>
+             @click.stop.prevent="cancleFood"></span>
         </div>
     </transition>
-    <transition name="price">
+   
     <span class="count" v-if="food.count">{{food.count}}</span>
-    </transition>
-    <span class="add icon-add_circle" @click="buyFood"></span>
+    
+    <span class="add icon-add_circle" @click.stop.prevent="buyFood"></span>
   </div>
 </template>
 
@@ -74,7 +74,7 @@
      line-height :24px;
     color: #4993f7;
     transform :rotate(0);
-    transition :all 0.4s linear;
+    transition :all 0.3s linear;
     vertical-align :middle;
    
   }
@@ -93,7 +93,7 @@
     }
 
 .move-enter-active , .move-leave-active{
-    transition:all 0.4s linear;
+    transition:all 0.3s linear;
   }
 
 .move-enter-to ,.decrease {
@@ -117,7 +117,7 @@
 
 
 .price-enter-active , .price-leave-active{
-    transition:all 0.4s linear;
+    transition:all 0.3s linear;
   }
 
 

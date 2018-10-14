@@ -347,4 +347,5 @@ export default {
   margin: -64px auto 0 auto;
   clear: both;
 }
+
 </style>
