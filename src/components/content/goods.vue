@@ -207,15 +207,14 @@
   }
 
   .goods-menu {
-    height: 100%;
+    position: absolute;
     width: 100%;
+    top: 275px;
   }
 
   .goods {
     display: flex;
-    position: absolute;
-    width: 100%;
-    top: 275px;
+   
     bottom: 46px;
     overflow: hidden;
     z-index: -1;

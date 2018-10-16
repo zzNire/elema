@@ -8,10 +8,13 @@ import VueResource from 'vue-resource'
 import './common/stylus/style.css';
 import 'animate.css'
 import vBlur from 'v-blur';
+import ASwiper from 'vue-awesome-swiper';
+import 'swiper/dist/css/swiper.css';
 
 
 Vue.use(VueResource);
 Vue.use(vBlur);
+
 
 /* eslint-disable no-new */
 new Vue({
