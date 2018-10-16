@@ -88,7 +88,7 @@ export default {
 .star-36 .star-item{
 	width: 15px;
 	height: 15px;
-	margin-right: 16px;
+	margin-right: 6px;
 	background-size: 15px 15px;
 }
 
@@ -102,6 +102,7 @@ export default {
 
 .star-36 .off {
 	bg-image('star36_off');
+  
 }
 
 .star-24 .star-item{

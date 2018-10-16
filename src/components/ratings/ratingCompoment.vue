@@ -10,11 +10,11 @@
     </div>
     <div class="line-top"></div>
     <div class="choose-hascontent" @click="seeonlyContent">
-      <span class="icon-check_circle" :class="{'seeAll':onlyContent}"></span>
+      <i class="icon-check_circle" :class="{'seeAll':onlyContent}"></i>
       <span>只查看有内容的评价</span>
     </div>
     <div class="line-bottom"></div>
-    <div class="all-ratings">
+    <div class="all-ratings" v-if="showRatingType === 1">
       <ul class="ratings-ul">
         <li class="ratings-li" v-for="rating in selectRatings">
           <div class="li-contetn">
@@ -34,6 +34,32 @@
         </li>
       </ul>
     </div>
+    <div class="R-ratings-wrapper" v-else>
+      <ul class="R-ratings-ul">
+        <li class="R-ratings-li" v-for="rating in selectRatings">
+          <div class="R-ratings-flex">
+            <div class="R-ratings-left">
+              <img class="R-user-icon" :src="rating.avatar">
+            </div>
+            <div class="R-ratings-right">
+              <div class="R-user-info">
+                <p class="R-user-name">{{rating.username}}</p>
+                <star :score="rating.score" :size="24"></star>
+                <span class="R-deliver-time" v-if="rating.deliveryTime">{{rating.deliveryTime}}分钟送达</span>
+                <span class="R-recommend-time">{{rating.rateTime | showTime}}</span>
+              </div>
+              <p class="R-rating-text">{{rating.text}}</p>
+              <i class="R-rating-type" :class="rating.rateType === 0 ? 'icon-thumb_up':'icon-thumb_down'"></i>
+              <span class="R-rating-recommend" v-for="recommend in rating.recommend">
+                {{recommend}}
+              </span>
+            </div>
+          </div>
+          <div class="line-bottom"></div>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </template>
 
@@ -45,9 +71,12 @@
   import {
     formatDate
   } from "../../common/js/date.js"
+  import star from "../star/star.vue"
   export default {
 
-
+    components: {
+      star,
+    },
     props: {
       ratings: {
         type: Array,
@@ -72,6 +101,11 @@
             negative: "差评",
           }
         }
+      },
+      showRatingType: {
+        type: Number,
+        default: 1,
+
       }
     },
     data() {
@@ -146,16 +180,14 @@
     filters: {
       showTime(value) {
         let rightTime = new Date(value);
-        return formatDate(rightTime, "YYYYY-MM-DD HH:mm");
+        return formatDate(rightTime, "YYYY-MM-DD HH:mm");
       },
-      showRatingType(value){
-          if(value === 0){
-              return "赞了该商品";
-          }
-            else if (value === 1)
-            {
-                return "踩了该商品";
-            }
+      showRatingType(value) {
+        if (value === 0) {
+          return "赞了该商品";
+        } else if (value === 1) {
+          return "踩了该商品";
+        }
       }
     }
 
@@ -186,7 +218,7 @@
 
   .ratings-type {
     height: 30px;
-    margin: 12px 0 6px 0;
+    margin: 12px 0;
   }
 
   .type-all,
@@ -223,11 +255,12 @@
   }
 
   .choose-hascontent {
-    margin: 6px 0;
+    margin: 8px 0;
   }
 
   .choose-hascontent span {
     font-size: 12px;
+    line-height: 20px;
 
   }
 
@@ -236,7 +269,9 @@
   }
 
   .icon-check_circle {
+    font-size: 20px;
     color: #939597;
+    vertical-align: middle;
   }
 
   .seeAll {
@@ -255,6 +290,7 @@
     height: 28px;
     top: 12px;
     left: 0px;
+    border-radius :50%;
   }
 
   .user-content {
@@ -279,6 +315,7 @@
   }
 
   .deliver-time {
+    position :absolute;
     font-size: 12px;
     color: gray;
     position: absolute;
@@ -287,6 +324,8 @@
     line-height: 28px;
   }
 
+  
+
   .user-rating {
     margin-top: 6px;
     font-size: 12px;
@@ -294,6 +333,98 @@
 
   .li-contetn {
     margin-bottom: 12px;
+  }
+
+  .ratings-ul :last-child .line-bottom {
+    height: 0;
+  }
+
+  .R-ratings-flex {
+    display: flex;
+    margin: 18px 0;
+  }
+
+  .R-ratings-left {
+    flex: 40px 0 0;
+  }
+
+  .R-ratings-right {
+    flex: 1;
+  }
+
+  .R-user-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    border-radius: 50%;
+  }
+
+.R-user-info{
+  position :relative;
+}
+  .R-user-name {
+    font-size: 12px;
+    color: rgb(7, 17, 27);
+    line-height: 12px;
+  }
+
+  .stars {
+    margin: 4px 6px 7px 0;
+    display: inline-block;
+  }
+
+  .R-deliver-time {
+    display: inline-block;
+    font-size: 12px;
+    color: rgb(147, 153, 159);
+    line-height: 12px;
+  }
+
+.R-recommend-time{
+  position :absolute;
+    font-size :12px;
+    font-weight :200;
+    color :rgb(147,153,159);
+    line-height :28px;
+    top:0px;
+    right:0px;
+  }
+  .R-rating-text {
+    font-size: 12px;
+    color: rgb(7, 17, 27);
+    line-height: 18px;
+
+  }
+
+  .icon-thumb_down:before {
+    content: "\e908";
+  }
+
+  .icon-thumb_up:before {
+    content: "\e909";
+  }
+
+  .R-rating-type {
+    font-size: 12px;
+    color: rgb(73, 147, 247);
+    margin-right: 4px;
+  }
+
+  .R-rating-recommend {
+
+    font-size: 12px;
+    color: rgb(147, 153, 159);
+    width: 100px;
+    border: 1px solid rgba(7, 17, 27, 0.1) ;
+    border-radius:2px;
+    padding: 1px 6px;
+    margin-right: 8px;
+    line-height: 24px;
+
+  }
+
+  .R-ratings-ul :last-child .line-bottom {
+    height: 0;
   }
 
 </style>

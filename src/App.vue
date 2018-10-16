@@ -24,21 +24,30 @@
   </div>
 
     <div class="content"> 
-      <router-view  :seller="seller"
+      <keep-alive>
+      <router-view  :seller="seller" 
         @appBlur="appBlur"></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script type="text/esmascript-6">
 import myHeader from './components/header/header.vue'
-
+import {urlParse} from './common/js/utl.js'
 const ERR_OK = 0;
 export default {
   name: 'App',
   data(){
     return{
-      seller:{},
+      seller:{
+        id: (()=>{
+          let queryParam = urlParse();
+           console.log("param-id");
+          console.log(queryParam.id);
+          return queryParam.id;
+        })()
+      },
       backgroundBlur:false,
     };
   },
@@ -46,11 +55,12 @@ export default {
     myHeader,
   },
   created(){
-    this.$http.get('/api/seller').then(response =>{
+    this.$http.get('/api/seller?id='+this.seller.id).then(response =>{
       response = response.body;
       if(response.errno === ERR_OK)
       {
-          this.seller = response.data;
+          //this.seller = response.data;
+          this.seller = Object.assign({},this.seller,response.data);
           console.log(this.seller)
       }
      
@@ -60,7 +70,7 @@ export default {
   },
   methods:{
     changeZIndex(zindex){
-      this.$refs.header.style.zIndex = zindex;
+      //this.$refs.header.style.zIndex = zindex;
     },
 
     appBlur(tag){
@@ -89,13 +99,13 @@ export default {
   filter :blur(5px);
 }
 .header{
-  position :relative;
-  z-index:0;
+ 
+ 
   
 }
 .menu{
-  position :relative;
-  z-index :0;
+  
+ 
   margin:5px 0 5px 0;
  
 }
@@ -110,11 +120,11 @@ export default {
 .tab-item {
   flex: 1;
   text-align: center;
-  z-index :0;
+  
 }
 
 .tab-item > a {
-  position :relative;
+ position :relative;
   display: block;
   font-size: 14px;
   color: rgb(77, 85, 93);
@@ -128,13 +138,13 @@ export default {
   content :"";
   width :40%;
   border-bottom :2px solid rgb(73,147,247);
-  z-index :-1;
+  
   
 }
 
 .cotent{
-  position :relative;
-  z-index :0;
+  
+ 
 }
 .line{
   border-1px(rgba(7, 17, 27,0.1))
