@@ -207,18 +207,18 @@
   }
 
   .goods-menu {
-    position: absolute;
-    width: 100%;
+     position: absolute;
     top: 275px;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
   }
 
   .goods {
+    height:392px ;
+     overflow: hidden;
     display: flex;
-   
-    bottom: 46px;
-    overflow: hidden;
     z-index: -1;
-
   }
 
   .backgroundBlur {
