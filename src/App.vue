@@ -38,7 +38,8 @@
 import {urlParse} from './common/js/utl.js';
 import Vue from 'vue'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
- 
+    import data from '../data.json'
+
 // require styles
 import 'swiper/dist/css/swiper.css'
  
@@ -66,7 +67,7 @@ export default {
     myHeader,
   },
   created(){
-    this.$http.get('/api/seller?id='+this.seller.id).then(response =>{
+    /*this.$http.get('/api/seller?id='+this.seller.id).then(response =>{
       response = response.body;
       if(response.errno === ERR_OK)
       {
@@ -79,6 +80,10 @@ export default {
     },response => {
 
     });
+    */
+   var response = data.seller;
+   this.seller = Object.assign({},this.seller,response);
+    console.log(this.seller);
   },
   methods:{
     changeZIndex(zindex){

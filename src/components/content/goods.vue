@@ -69,7 +69,7 @@
   import spanIcon from "../spanIcon/spanIcon.vue";
   import shopcarContral from "../shopcarContral/shopcarContral.vue"
   import foodDetial from "./food/foodDetial.vue"
-
+ import data from '../../../data.json'
   export default {
     components: {
       spanIcon,
@@ -94,21 +94,23 @@
       };
     },
     created() {
-      this.$http.get("/api/goods").then(
-        response => {
-          response = response.body;
-          if (response.errno === ERR_OK) {
-            this.goods = response.data;
+      let response = data.goods;
+       this.goods = response;
             console.log(this.goods);
             this.$nextTick(() => { //等到整个视图都渲染完毕
               this.initScroll();
               this.calculateHight();
             })
+     /* this.$http.get("/api/goods").then(
+        response => {
+          response = response.body;
+          if (response.errno === ERR_OK) {
+           
           }
 
         },
         response => {}
-      );
+      );*/
     },
     methods: {
       initScroll() {

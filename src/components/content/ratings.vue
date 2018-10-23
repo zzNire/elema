@@ -43,6 +43,7 @@
   import BScroll from 'better-scroll'
   import star from '../star/star.vue'
   import ratingCompoment from "../ratings/ratingCompoment.vue";
+  import data from '../../../data.json'
   const POSITIVE = 0;
   const NEGATIVE = 1;
   const ALL = 3;
@@ -71,7 +72,10 @@
       }
     },
     created() {
-      this.$http.get('/api/ratings').then(response => {
+      let response = data.ratings;
+        this.ratings = response;
+          console.log(this.ratings);
+      /*this.$http.get('/api/ratings').then(response => {
         response = response.body;
         if (response.errno === ERR_OK) {
           this.ratings = response.data;
@@ -82,7 +86,7 @@
 
       }, response => {
 
-      });
+      });*/
     },
     mounted(){
        this.$nextTick(() => {
