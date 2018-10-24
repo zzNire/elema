@@ -217,7 +217,7 @@
   }
 
   .goods {
-    height:392px ;
+    height:100% ;
      overflow: hidden;
     display: flex;
     z-index: -1;
@@ -312,7 +312,7 @@
 
   .food-info {
     flex: 1;
-    font-size: 10px;
+    font-size: 12px;
     color: rgb(147, 153, 159);
     position: relative;
   }
@@ -326,7 +326,7 @@
   }
 
   .food-description {
-    font-size: 10px;
+    font-size: 12px;
     margin-bottom: 8px;
     overflow: hidden;
     line-height: 15px;
@@ -359,7 +359,7 @@
   }
 
   .food-oldprice {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 24px;
     color: rgb(147, 153, 159);
     font-weight: 700;
