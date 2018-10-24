@@ -1,7 +1,9 @@
 # elema
 
 > A Vue.js project
-
+浏览地址 
+https://zznire.github.io/elema/
+建议在手机模式下查看 切换模式记得刷新页面
 ## Build Setup
 
 ``` bash
