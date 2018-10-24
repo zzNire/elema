@@ -49,12 +49,8 @@
 
     </div>
     <transition name="detial">
-      <food-detial class="food-show" 
-      v-show="showFlag" 
-      :food="selectedFood"
-      :showTag="showFlag"
-      @hideDetial="hideDetial"
-      @startDrop="startDrop"></food-detial>
+      <food-detial class="food-show" v-show="showFlag" :food="selectedFood" :showTag="showFlag" @hideDetial="hideDetial"
+        @startDrop="startDrop"></food-detial>
     </transition>
 
     <shopcar class="shop-car" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selectFoods="selectFoods"
@@ -69,7 +65,7 @@
   import spanIcon from "../spanIcon/spanIcon.vue";
   import shopcarContral from "../shopcarContral/shopcarContral.vue"
   import foodDetial from "./food/foodDetial.vue"
- import data from '../../../data.json'
+  import data from '../../../data.json'
   export default {
     components: {
       spanIcon,
@@ -95,22 +91,22 @@
     },
     created() {
       let response = data.goods;
-       this.goods = response;
-            console.log(this.goods);
-            this.$nextTick(() => { //等到整个视图都渲染完毕
-              this.initScroll();
-              this.calculateHight();
-            })
-     /* this.$http.get("/api/goods").then(
-        response => {
-          response = response.body;
-          if (response.errno === ERR_OK) {
-           
-          }
+      this.goods = response;
+      console.log(this.goods);
+      this.$nextTick(() => { //等到整个视图都渲染完毕
+        this.initScroll();
+        this.calculateHight();
+      })
+      /* this.$http.get("/api/goods").then(
+         response => {
+           response = response.body;
+           if (response.errno === ERR_OK) {
+            
+           }
 
-        },
-        response => {}
-      );*/
+         },
+         response => {}
+       );*/
     },
     methods: {
       initScroll() {
@@ -167,10 +163,10 @@
         this.selectedFood = food;
         this.showFlag = true;
       },
-      hideDetial(tag){
+      hideDetial(tag) {
         this.showFlag = tag;
       },
-      startDrop(target){
+      startDrop(target) {
         this._drop(target);
       }
     },
@@ -209,16 +205,19 @@
   }
 
   .goods-menu {
-     position: absolute;
+    position: fixed;
     top: 275px;
-    bottom: 0;
+    bottom: 0px;
     width: 100%;
     overflow: hidden;
   }
 
   .goods {
-    height:100% ;
-     overflow: hidden;
+
+    position: absolute;
+    top: 0px;
+    bottom: 46px;
+    overflow: hidden;
     display: flex;
     z-index: -1;
   }
