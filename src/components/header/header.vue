@@ -180,7 +180,7 @@ export default {
 
 .detals {
   color: gray;
-  font-size: 6px;
+  font-size: 12px;
   font-weight: 400;
   margin-bottom: 8px;
 }
@@ -193,7 +193,7 @@ export default {
 .sale {
   display: flex;
   justify-content: space-between;
-  font-size: 6px;
+  font-size: 12px;
   margin-bottom: 8px;
 }
 
@@ -229,12 +229,12 @@ export default {
 }
 
 .sale-more-info {
-  font-size: 6px;
+  font-size: 12px;
 }
 
 .report {
   margin: 0px;
-  font-size: 6px;
+  font-size: 12px;
   color: gray;
   overflow: hidden;
   white-space: nowrap;
